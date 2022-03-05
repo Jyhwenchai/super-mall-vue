@@ -1,6 +1,6 @@
 <template>
   <router-view></router-view>
-  <main-tab-bar></main-tab-bar>
+  <main-tab-bar class="main-tab-bar"></main-tab-bar>
 </template>
 
 <script>
@@ -14,4 +14,8 @@ export default {
 </script>
 <style>
 @import "assets/css/base.css";
+.main-tab-bar {
+  background-color: #fff;
+  z-index: 100;
+}
 </style>

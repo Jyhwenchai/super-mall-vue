@@ -9,6 +9,7 @@
 <script>
 export default {
   name: 'TabControl',
+  emits: ['itemClick'],
   props: {
     titles: {
       type: Array,
