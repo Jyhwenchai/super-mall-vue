@@ -9,14 +9,14 @@
     <template v-slot:right>
     </template>
   </nav-bar>
-  <scroll class="content" ref="scroll">
+  <scroll class="content" ref="scroll" @scroll="contentScroll" @pullingUp="loadMore" :probe-type="3" :is-pull-up="true">
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
     <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @itemClick="itemClick"></tab-control>
     <goods-list :goods="showGoods"></goods-list>
   </scroll>
-  <back-top @click="backTop" class="back-top"/>
+  <back-top @click="backTop" class="back-top" v-show="isShowBackTop"/>
 </div>
 </template>
 
@@ -55,7 +55,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: 'pop'
+      currentType: 'pop',
+      isShowBackTop: false
     }
   },
   created () {
@@ -88,6 +89,14 @@ export default {
       this.$refs.scroll.scrollTo(0, 0)
     },
 
+    contentScroll (position) {
+      this.isShowBackTop = (-position.y) > 1000
+    },
+
+    loadMore () {
+      this.getHomeGoods(this.currentType)
+    },
+
     // 网络请求
     getHomeMultiData () {
       getHomeMultiData()
@@ -101,7 +110,9 @@ export default {
       getHomeGoods(type, page)
         .then(res => {
           this.goods[type].list.push(...res.data.data.list)
-          this.$refs.scroll.scroll.refresh()
+          this.$refs.scroll.finishPullUp()
+          this.goods[type].page = page + 1
+          console.log('loading success')
         })
     }
   }
