@@ -23,7 +23,7 @@
     </template>
   </tab-bar-item>
 
-  <tab-bar-item path="/card">
+  <tab-bar-item path="/cart">
     <template v-slot:item-icon>
       <img src="~assets/img/tabbar/shopcart.svg" alt="">
     </template>

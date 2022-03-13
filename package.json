@@ -15,6 +15,7 @@
     "mitt": "^3.0.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
+    "vue3-lazyload": "^0.2.5-beta",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

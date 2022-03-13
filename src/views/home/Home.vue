@@ -29,16 +29,17 @@ import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import BackTop from 'components/content/backTop/BackTop'
 
-import HomeSwiper from './chidCommps/HomeSwiper'
-import RecommendView from './chidCommps/RecommendView'
-import FeatureView from './chidCommps/FeatureView'
+import HomeSwiper from './chidComps/HomeSwiper'
+import RecommendView from './chidComps/RecommendView'
+import FeatureView from './chidComps/FeatureView'
 
 import { getHomeMultiData, getHomeGoods } from 'network/home'
 
-import { debounce } from 'common/utils'
+import { itemListenerMixin } from 'common/mixin'
 
 export default {
   name: 'Home',
+  mixins: [itemListenerMixin],
   components: {
     TabControl,
     NavBar,
@@ -72,10 +73,6 @@ export default {
     this.getHomeGoods('sell')
   },
   mounted () {
-    const refresh = debounce(this.$refs.scroll.refresh, 100)
-    this.emitter.on('imageLoad', () => {
-      refresh()
-    })
     this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
   },
   computed: {
@@ -84,10 +81,12 @@ export default {
     }
   },
   activated () {
+    this.emitter.on('imageLoad', this.itemImgListener)
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
   },
   deactivated () {
+    this.emitter.off('imageLoad', this.itemImgListener)
     this.saveY = this.$refs.scroll.getScrollY()
   },
   methods: {
