@@ -24,7 +24,10 @@ const routes = [
   },
   {
     path: '/cart',
-    component: Cart
+    component: Cart,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/category',
