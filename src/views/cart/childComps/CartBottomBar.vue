@@ -50,7 +50,9 @@ export default {
 
 <style>
 .cart-bottom-bar {
-  position: relative;
+  position: fixed;
+  bottom: 49px;
+  width: 100%;
   display: flex;
   height: 40px;
   line-height: 40px;
