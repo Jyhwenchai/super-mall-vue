@@ -1,5 +1,7 @@
 # vue-first-project-practice
 
+基于 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+
+
 ## Project setup
 ```
 npm install
