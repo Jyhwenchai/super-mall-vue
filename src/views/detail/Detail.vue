@@ -140,7 +140,7 @@ export default {
 <style scoped>
 #detail {
   position: relative;
-  height: 100vh;
+  height: calc(100% - 93px);
   z-index: 10;
   background-color: #fff;
 }
@@ -152,9 +152,8 @@ export default {
 }
 .scroll-wrapper {
   position: relative;
-  height: calc(100% - 44px - 49px);
+  height: 100%;
   background-color: #fff;
   z-index: 10;
-  padding-bottom: 49px;
 }
 </style>

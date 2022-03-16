@@ -31,6 +31,6 @@ export default {
 
 <style scoped>
 .cart {
-  height: 100vh;
+  height: calc(100% - 93px - 40px);
 }
 </style>

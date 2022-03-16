@@ -29,7 +29,7 @@ export default {
 
 <style scoped>
 .cart-list {
-  height: calc(100vh - 40px - 44px - 49px);
+  height: 100%;
 }
 
 .cart-list .scroll-wrapper {

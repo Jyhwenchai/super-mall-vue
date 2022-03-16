@@ -1,14 +1,6 @@
 <template>
 <div id="home">
-  <nav-bar>
-    <template v-slot:left>
-    </template>
-    <template v-slot:center>
-      <div>购物街</div>
-    </template>
-    <template v-slot:right>
-    </template>
-  </nav-bar>
+  <home-nav-bar class="nav-bar"/>
   <tab-control class="tab-control fixed" v-show="isShowTabControl" ref="tabControlFixed" :titles="['流行', '新款', '精选']" @itemClick="itemClick"></tab-control>
   <scroll class="content" ref="scroll" @scroll="contentScroll" @pullingUp="loadMore" :probe-type="3" :is-pull-up="true">
     <home-swiper class="home-swiper" :banners="banners" @imageLoad="imageLoad"></home-swiper>
@@ -22,7 +14,7 @@
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar'
+import HomeNavBar from './chidComps/HomeNavBar'
 import Scroll from 'components/common/scroll/Scroll'
 
 import TabControl from 'components/content/tabControl/TabControl'
@@ -42,7 +34,7 @@ export default {
   mixins: [itemListenerMixin],
   components: {
     TabControl,
-    NavBar,
+    HomeNavBar,
     GoodsList,
     HomeSwiper,
     RecommendView,
@@ -63,7 +55,8 @@ export default {
       isShowBackTop: false,
       tabOffsetTop: 0,
       isShowTabControl: false,
-      saveY: 0
+      saveY: 0,
+      isFirstActived: false
     }
   },
   created () {
@@ -81,6 +74,11 @@ export default {
     }
   },
   activated () {
+    // 注意: 由于 Home 加入 KeepAlive 导致第一次创建 Home 是会触发 activated 的调用，所以要进行一定的处理
+    if (!this.isFirstActived) {
+      this.isFirstActived = true
+      return
+    }
     this.emitter.on('imageLoad', this.itemImgListener)
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
@@ -146,7 +144,7 @@ export default {
 
 <style scoped>
 #home {
-  height: 100vh;
+  height: 100%;
 }
 
 .nav-bar {
@@ -158,8 +156,8 @@ export default {
   height: 200px;
 }
 
-.tab-control {
-  position: relative;
+.tab-control.fixed {
+  position: fixed;
   width: 100%;
 }
 
@@ -168,10 +166,8 @@ export default {
 }
 
 .content {
-  position: absolute;;
+  position: relative;
   height: calc(100% - 93px);
-  top: 44px;
-  padding-bottom: 49px;
   overflow: hidden;
 }
 </style>
