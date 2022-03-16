@@ -3,6 +3,9 @@
 基于 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+
 
 ## Project setup
+
+** 仅实现视频中的部分功能 **
+
 ```
 npm install
 ```
