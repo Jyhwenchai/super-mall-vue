@@ -1,4 +1,4 @@
-# vue-first-project-practice
+# super-mall-vue 
 
 基于 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+
 
