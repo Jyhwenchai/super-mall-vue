@@ -4,7 +4,7 @@
 
 ## Project setup
 
-** 仅实现视频中的部分功能 **
+**仅实现视频中的部分功能**
 
 ```
 npm install
