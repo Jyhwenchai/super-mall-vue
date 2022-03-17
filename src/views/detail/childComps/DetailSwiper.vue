@@ -10,6 +10,10 @@
 import { Swiper, SwiperItem } from 'components/common/swiper'
 export default {
   name: 'DetailSwiper',
+  components: {
+    Swiper,
+    SwiperItem
+  },
   props: {
     topImages: {
       type: Array,
@@ -17,10 +21,6 @@ export default {
         return []
       }
     }
-  },
-  components: {
-    Swiper,
-    SwiperItem
   }
 }
 </script>

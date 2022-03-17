@@ -1,5 +1,5 @@
 <template>
-<div class="comment-info-wrap" v-if="Object.keys(commentInfo).length !== 0">
+<div v-if="Object.keys(commentInfo).length !== 0" class="comment-info-wrap" >
   <div class="comment-title flex">
     <div>用户评价</div>
     <div>更多</div>
@@ -15,8 +15,8 @@
       <span>{{item.style}}</span>
     </div>
     <div class="flex">
-      <div class="comment-info-images" v-for="(item, index) in item.images" :key="index">
-        <img :src="item" alt="">
+      <div v-for="(image, idx) in item.images" :key="idx" class="comment-info-images" >
+        <img :src="image" alt="">
       </div>
     </div>
   </div>

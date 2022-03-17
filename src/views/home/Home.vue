@@ -1,15 +1,15 @@
 <template>
 <div id="home">
   <home-nav-bar class="nav-bar"/>
-  <tab-control class="tab-control fixed" v-show="isShowTabControl" ref="tabControlFixed" :titles="['流行', '新款', '精选']" @itemClick="itemClick"></tab-control>
-  <scroll class="content" ref="scroll" @scroll="contentScroll" @pullingUp="loadMore" :probe-type="3" :is-pull-up="true">
-    <home-swiper class="home-swiper" :banners="banners" @imageLoad="imageLoad"></home-swiper>
+  <tab-control v-show="isShowTabControl" ref="tabControlFixed" class="tab-control fixed" :titles="['流行', '新款', '精选']" @item-click="itemClick"></tab-control>
+  <scroll ref="scroll" :probe-type="3" :is-pull-up="true" class="content" @scroll="contentScroll" @pulling-up="loadMore" >
+    <home-swiper class="home-swiper" :banners="banners" @image-load="imageLoad"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
-    <tab-control class="tab-control" ref="tabControl" :titles="['流行', '新款', '精选']" @itemClick="itemClick"></tab-control>
+    <tab-control ref="tabControl" class="tab-control" :titles="['流行', '新款', '精选']" @item-click="itemClick"></tab-control>
     <goods-list :goods="showGoods"></goods-list>
   </scroll>
-  <back-top @click="backTop" class="back-top" v-show="isShowBackTop"/>
+  <back-top v-show="isShowBackTop" class="back-top" @click="backTop" />
 </div>
 </template>
 
@@ -31,7 +31,6 @@ import { itemListenerMixin } from 'common/mixin'
 
 export default {
   name: 'Home',
-  mixins: [itemListenerMixin],
   components: {
     TabControl,
     HomeNavBar,
@@ -42,6 +41,7 @@ export default {
     Scroll,
     BackTop
   },
+  mixins: [itemListenerMixin],
   data () {
     return {
       banners: [],
@@ -59,6 +59,11 @@ export default {
       isFirstActived: false
     }
   },
+  computed: {
+    showGoods () {
+      return this.goods[this.currentType].list
+    }
+  },
   created () {
     this.getHomeMultiData()
     this.getHomeGoods('pop')
@@ -67,11 +72,6 @@ export default {
   },
   mounted () {
     this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
-  },
-  computed: {
-    showGoods () {
-      return this.goods[this.currentType].list
-    }
   },
   activated () {
     // 注意: 由于 Home 加入 KeepAlive 导致第一次创建 Home 是会触发 activated 的调用，所以要进行一定的处理

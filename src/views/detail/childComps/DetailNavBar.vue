@@ -1,13 +1,13 @@
 <template>
   <nav-bar class="nav-bar">
-    <template v-slot:left>
-      <div @click="backClick" class="back">
+    <template #left>
+      <div class="back" @click="backClick">
         <img src="~assets/img/common/back.svg">
       </div>
     </template>
-    <template v-slot:center>
+    <template #center>
       <div class="title">
-        <div class="title-item" v-for="(item, index) in titles" :key="index" :class="{active: currentIndex === index }" @click="titleClick(index)">
+        <div v-for="(item, index) in titles" :key="index" class="title-item" :class="{active: currentIndex === index }" @click="titleClick(index)">
           {{ item }}
         </div>
       </div>
@@ -21,6 +21,7 @@ import NavBar from 'components/common/navbar/NavBar'
 export default {
   name: 'DetailNavBar',
   components: { NavBar },
+  emits: ['titleClick'],
   data () {
     return {
       titles: ['商品', '参数', '评论', '推荐'],

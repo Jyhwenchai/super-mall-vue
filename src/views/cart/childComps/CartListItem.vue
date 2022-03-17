@@ -1,7 +1,7 @@
 <template>
 <div class="cart-list-item">
   <div class="check-item">
-    <check-button :isChecked="product.checked" class="check-button" @click="checkClick"/>
+    <check-button :is-checked="product.checked" class="check-button" @click="checkClick"/>
   </div>
   <div class="cart-list-left">
     <img :src="product.image" alt="" class="goods-img">
@@ -20,6 +20,9 @@
 import CheckButton from 'components/content/checkButton/CheckButton'
 export default {
   name: 'CartListItem',
+  components: {
+    CheckButton
+  },
   props: {
     product: {
       type: Object,
@@ -33,16 +36,13 @@ export default {
       productItem: null
     }
   },
-  components: {
-    CheckButton
+  created () {
+    this.productItem = this.product
   },
   methods: {
     checkClick () {
       this.$store.dispatch('toogleCheckedCartProduct', this.product)
     }
-  },
-  created () {
-    this.productItem = this.product
   }
 }
 </script>

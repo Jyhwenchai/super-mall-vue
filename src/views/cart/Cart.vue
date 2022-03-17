@@ -1,6 +1,6 @@
 <template>
 <div class="cart">
-  <cart-nav-bar :cartLength="getCartLength"/>
+  <cart-nav-bar :cart-length="getCartLength"/>
   <cart-list :products="cartList"/>
   <cart-bottom-bar />
 </div>

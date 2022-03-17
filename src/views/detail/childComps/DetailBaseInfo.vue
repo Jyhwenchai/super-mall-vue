@@ -12,7 +12,7 @@
     <span>{{goods.services[goods.services.length-1].name}}</span>
   </div>
   <div class="info-service">
-    <span class="info-service-item" v-for="index in goods.services.length-1" :key="index">
+    <span v-for="index in goods.services.length-1" :key="index" class="info-service-item" >
       <img :src="goods.services[index-1].icon">
       <span>{{goods.services[index-1].name}}</span>
     </span>

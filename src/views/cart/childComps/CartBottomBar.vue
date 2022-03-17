@@ -1,7 +1,7 @@
 <template>
   <div class="cart-bottom-bar">
     <div class="check-content">
-      <check-button :isChecked="isSelectAll" class="check-button" @click="selectAll"/>
+      <check-button :is-checked="isSelectAll" class="check-button" @click="selectAll"/>
       <span>全选</span>
     </div>
     <div class="price">合计：{{totalPrice}}</div>

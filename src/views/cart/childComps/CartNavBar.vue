@@ -1,6 +1,6 @@
 <template>
   <nav-bar class="nav-bar">
-    <template v-slot:center>
+    <template #center>
       <span>购物车({{cartLength}})</span>
     </template>
   </nav-bar>
@@ -12,6 +12,9 @@ import NavBar from 'components/common/navbar/NavBar'
 
 export default {
   name: 'CartNavBar',
+  components: {
+    NavBar
+  },
   props: {
     cartLength: {
       type: Number,
@@ -19,9 +22,6 @@ export default {
         return 0
       }
     }
-  },
-  components: {
-    NavBar
   }
 }
 </script>

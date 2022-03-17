@@ -1,11 +1,11 @@
 <template>
   <nav-bar>
-    <template v-slot:left>
+    <template #left>
     </template>
-    <template v-slot:center>
+    <template #center>
       <div>购物街</div>
     </template>
-    <template v-slot:right>
+    <template #right>
     </template>
   </nav-bar>
 

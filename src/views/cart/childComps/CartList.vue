@@ -12,6 +12,10 @@ import CartListItem from './CartListItem'
 
 export default {
   name: 'CartList',
+  components: {
+    Scroll,
+    CartListItem
+  },
   props: {
     products: {
       type: Array,
@@ -19,10 +23,6 @@ export default {
         return []
       }
     }
-  },
-  components: {
-    Scroll,
-    CartListItem
   }
 }
 </script>

@@ -1,17 +1,17 @@
 <template>
-<detail-nav-bar class="detail-navbar" @titleClick="titleClick" ref="nav"/>
+<detail-nav-bar ref="nav" class="detail-navbar" @title-click="titleClick"/>
 <div id="detail">
-  <scroll class="scroll-wrapper" ref="scroll" :probeType="3" @scroll="contentScroll">
-    <detail-swiper :topImages="topImages"/>
+  <scroll ref="scroll" :probe-type="3" class="scroll-wrapper"  @scroll="contentScroll">
+    <detail-swiper :top-images="topImages"/>
     <detail-base-info :goods="goods"/>
     <detail-shop-info :shop="shop"/>
-    <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad"/>
-    <detail-param-info :paramInfo="paramInfo" ref="paramInfo"/>
-    <detail-comment-info :commentInfo="commentInfo" ref="commentInfo"/>
-    <goods-list :goods="recommends" ref="recommends"/>
+    <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad"/>
+    <detail-param-info ref="paramInfo" :param-info="paramInfo" />
+    <detail-comment-info ref="commentInfo" :comment-info="commentInfo"/>
+    <goods-list ref="recommends" :goods="recommends"/>
   </scroll>
 </div>
-<detail-bottom-bar @addCart="addCart"/>
+<detail-bottom-bar @add-cart="addCart"/>
 </template>
 
 <script>
@@ -33,7 +33,6 @@ import { debounce } from 'common/utils'
 
 export default {
   name: 'Detail',
-  mixins: [itemListenerMixin],
   components: {
     DetailNavBar,
     DetailSwiper,
@@ -46,6 +45,7 @@ export default {
     GoodsList,
     Scroll
   },
+  mixins: [itemListenerMixin],
   data () {
     return {
       iid: null,
@@ -95,6 +95,9 @@ export default {
       this.themeTopY.push(Number.MAX_VALUE)
     }, 100)
   },
+  unmounted () {
+    this.emitter.off('imageLoad', this.itemImgListener)
+  },
   methods: {
     imageLoad () {
       this.$refs.scroll.refresh()
@@ -130,9 +133,6 @@ export default {
           this.$toast.show(res, 2000)
         })
     }
-  },
-  unmounted () {
-    this.emitter.off('imageLoad', this.itemImgListener)
   }
 }
 </script>

@@ -1,11 +1,14 @@
 <template>
   <div id="container">
     <router-view v-slot="{ Component }">
-      <keep-alive include="Home,Cart" exclude="Detail">
-        <component :is="Component"></component>
+      <keep-alive 
+        include="Home,Cart" 
+        exclude="Detail"
+      >
+        <component :is="Component" />
       </keep-alive>
     </router-view>
-    <main-tab-bar class="main-tab-bar"></main-tab-bar>
+    <main-tab-bar class="main-tab-bar" />
   </div>
 </template>
 
