@@ -12,6 +12,8 @@ module.exports = {
       'vue/multi-word-component-names': ['error', {
         'ignores': ['Home', 'Detail', 'Profile', 'Cart', 'Category']
       }],
-      'quotes': ['error', 'single', { 'avoidEscape': true }]
+      'quotes': ['error', 'single', { 'avoidEscape': true }],
+
+      'eol-last': ['error', 'always']
     }
   }
