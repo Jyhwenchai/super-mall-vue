@@ -11,7 +11,8 @@ import CartNavBar from './childComps/CartNavBar'
 import CartList from './childComps/CartList'
 import CartBottomBar from './childComps/CartBottomBar'
 
-import { mapGetters } from 'vuex'
+import { globalStore } from '@/store/global'
+import { mapState } from 'pinia'
 
 export default {
   name: 'Cart',
@@ -21,10 +22,11 @@ export default {
     CartBottomBar
   },
   computed: {
-    ...mapGetters([
-      'getCartLength',
-      'cartList'
-    ])
+    ...mapState(globalStore, ['getCartLength', 'cartList'])
+    // ...mapGetters([
+    //   'getCartLength',
+    //   'cartList'
+    // ])
   }
 }
 </script>

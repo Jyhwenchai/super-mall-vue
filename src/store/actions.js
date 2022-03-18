@@ -1,21 +1,20 @@
-import { AddCartCounter, AddCart, ToogleCheckedCartProduct } from './mutation-type'
-
 export default {
-  addCart ({ state, commit }, payload) {
+  addCart (payload) {
     return new Promise((resolve, reject) => {
-      var product = state.cartList.find(item => item.iid === payload.iid)
+      var product = this.cartList.find(item => item.iid === payload.iid)
       // 产品已经存在
       if (product) {
-        commit(AddCartCounter, product)
+        product.count += 1
         resolve('当前商品数量+1')
       } else {
-        commit(AddCart, payload)
+        payload.count = 1
+        payload.checked = true
+        this.cartList.push(payload)
         resolve('添加了新商品')
       }
     })
   },
-
-  toogleCheckedCartProduct ({ state, commit }, payload) {
-    commit(ToogleCheckedCartProduct, payload)
+  toogleCheckedCartProduct (payload) {
+    payload.checked = !payload.checked
   }
 }

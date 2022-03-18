@@ -13,7 +13,8 @@
 
 <script>
 import CheckButton from 'components/content/checkButton/CheckButton'
-import { mapGetters } from 'vuex'
+import { globalStore } from '@/store/global'
+import { mapState } from 'pinia'
 
 export default {
   name: 'CartBottomBar',
@@ -21,7 +22,7 @@ export default {
     CheckButton
   },
   computed: {
-    ...mapGetters(['cartList']),
+    ...mapState(globalStore, ['cartList']),
     totalPrice () {
       return '￥' + this.cartList.filter(item => {
         return item.checked

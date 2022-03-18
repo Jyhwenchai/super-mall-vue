@@ -30,6 +30,7 @@ import Scroll from 'components/common/scroll/Scroll'
 import { getDetail, Goods, Shop, GoodsParam, getRecommends } from 'network/detail'
 import { itemListenerMixin } from 'common/mixin'
 import { debounce } from 'common/utils'
+import { globalStore } from '@/store/global'
 
 export default {
   name: 'Detail',
@@ -46,6 +47,10 @@ export default {
     Scroll
   },
   mixins: [itemListenerMixin],
+  setup () {
+    const store = globalStore()
+    return { store }
+  },
   data () {
     return {
       iid: null,
@@ -98,6 +103,7 @@ export default {
   unmounted () {
     this.emitter.off('imageLoad', this.itemImgListener)
   },
+
   methods: {
     imageLoad () {
       this.$refs.scroll.refresh()
@@ -127,8 +133,7 @@ export default {
       product.price = this.goods.realPrice
       product.iid = this.iid
       // 2. 将商品添加到购物车
-      // 可以使用 vuex 中 mapAction 简化
-      this.$store.dispatch('addCart', product)
+      this.store.addCart(product)
         .then(res => {
           this.$toast.show(res, 2000)
         })

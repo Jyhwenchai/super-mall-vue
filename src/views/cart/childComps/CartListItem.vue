@@ -18,6 +18,8 @@
 
 <script>
 import CheckButton from 'components/content/checkButton/CheckButton'
+import { globalStore } from '@/store/global'
+
 export default {
   name: 'CartListItem',
   components: {
@@ -31,6 +33,10 @@ export default {
       }
     }
   },
+  setup () {
+    const store = globalStore()
+    return { store }
+  },
   data () {
     return {
       productItem: null
@@ -41,7 +47,7 @@ export default {
   },
   methods: {
     checkClick () {
-      this.$store.dispatch('toogleCheckedCartProduct', this.product)
+      this.store.toogleCheckedCartProduct(this.product)
     }
   }
 }
