@@ -10,6 +10,7 @@
 
 **仅实现视频中的部分功能**
 
+**运行项目前需配置 request.js 中的 baseURL(不知道请找相关人士索要, Not Me!)**
 ```
 npm install
 ```
