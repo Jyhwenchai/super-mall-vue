@@ -1,6 +1,10 @@
 # super-mall-vue 
 
-基于 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+
+**项目结构调整**
+
+从 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+ 进行迁移
+
+将 vue-cli 替换为 vite、vuex 替换为 pinia
 
 ## Project setup
 
