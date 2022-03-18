@@ -1,16 +1,21 @@
 # super-mall-vue 
 
-**项目结构调整**
+**项目结构**
 
-从 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+ 进行迁移
+* branch: v1-vue3-vuex
 
-将 vue-cli 替换为 vite、vuex 替换为 pinia
+  使用 vue-cli5.0+、 vue3、vue-router4.0+、vuex4.0+、better-scroll2.0+
+
+* branch: vite-pinia
+
+  将 vue-cli 替换为 vite、vuex 替换为 pinia
 
 ## Project setup
 
 **仅实现视频中的部分功能**
 
 **运行项目前需配置 request.js 中的 baseURL(不知道请找相关人士索要, Not Me!)**
+
 ```
 npm install
 ```
