@@ -23,10 +23,6 @@ export default {
   },
   computed: {
     ...mapState(globalStore, ['getCartLength', 'cartList'])
-    // ...mapGetters([
-    //   'getCartLength',
-    //   'cartList'
-    // ])
   }
 }
 </script>
