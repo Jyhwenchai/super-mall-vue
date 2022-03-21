@@ -1,31 +1,35 @@
+<script setup>
+
+import MainTabBar from 'components/content/mainTabbar/MainTabBar'
+
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  // 修复在safari、微信等浏览器上高度不正确的问题
+  const dom = document.getElementById('container')
+  dom.style.height = `${window.innerHeight}px`
+})
+
+</script>
+
 <template>
   <div id="container">
     <router-view v-slot="{ Component }">
-      <keep-alive 
+      <!-- <keep-alive 
         include="Home,Cart" 
         exclude="Detail"
       >
         <component :is="Component" />
+      </keep-alive> -->
+      <keep-alive>
+        <component v-if="$route.meta.keepAlive" :key="$route.name" :is="Component"/>
       </keep-alive>
+        <!-- <div>{{$router}}</div> -->
     </router-view>
     <main-tab-bar class="main-tab-bar" />
   </div>
 </template>
 
-<script>
-import MainTabBar from 'components/content/mainTabbar/MainTabBar'
-export default {
-  name: 'App',
-  components: {
-    MainTabBar
-  },
-  mounted () {
-    // 修复在safari、微信等浏览器上高度不正确的问题
-    const dom = document.getElementById('container')
-    dom.style.height = `${window.innerHeight}px`
-  }
-}
-</script>
 <style>
 @import "assets/css/base.css";
 .main-tab-bar {

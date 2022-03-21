@@ -1,3 +1,67 @@
+<script setup>
+
+import BScroll from '@better-scroll/core'
+import PullUp from '@better-scroll/pull-up'
+
+import { ref, onMounted } from 'vue'
+
+const props = defineProps( {
+  probeType: {
+    type: Number,
+    default: 0
+  },
+  isPullUp: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emits = defineEmits(['scroll', 'pullingUp'])
+const wrapper = ref(null)
+
+function scrollTo (x, y, time = 300) {
+  scroll && scroll.scrollTo(x, y, time)
+}
+
+function refresh () {
+  scroll && scroll.refresh()
+}
+
+function finishPullUp () {
+  scroll && scroll.finishPullUp()
+  refresh()
+}
+
+function getScrollY () {
+  return scroll ? scroll.y : 0
+}
+
+let scroll = null
+onMounted(() => {
+  BScroll.use(PullUp)
+  scroll = new BScroll(wrapper.value, {
+    click: true,
+    probeType: props.probeType,
+    pullUpLoad: props.isPullUp
+  })
+
+  if (props.probeType === 2 || props.probeType === 3) {
+    scroll.on('scroll', (position) => {
+      emits('scroll', position)
+    })
+  }
+
+  if (props.isPullUp) {
+    scroll.on('pullingUp', () => {
+      emits('pullingUp')
+    })
+  }
+})
+
+defineExpose({ scrollTo, refresh, finishPullUp, getScrollY })
+
+</script>
+
 <template>
 <div class="wrapper" ref="wrapper">
   <div class="content">
@@ -5,68 +69,6 @@
   </div>
 </div>
 </template>
-
-<script>
-import BScroll from '@better-scroll/core'
-import PullUp from '@better-scroll/pull-up'
-
-export default {
-  name: 'Scroll',
-  emits: ['scroll', 'pullingUp'],
-  props: {
-    probeType: {
-      type: Number,
-      default: 0
-    },
-    isPullUp: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data () {
-    return {
-      isActive: false,
-      scroll: null
-    }
-  },
-  mounted () {
-    BScroll.use(PullUp)
-    this.scroll = new BScroll(this.$refs.wrapper, {
-      click: true,
-      probeType: this.probeType,
-      pullUpLoad: this.isPullUp
-    })
-
-    if (this.probeType === 2 || this.probeType === 3) {
-      this.scroll.on('scroll', (position) => {
-        this.$emit('scroll', position)
-      })
-    }
-
-    if (this.isPullUp) {
-      this.scroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
-    }
-  },
-  methods: {
-    scrollTo (x, y, time = 300) {
-      this.scroll && this.scroll.scrollTo(x, y, time)
-    },
-    refresh () {
-      this.scroll && this.scroll.refresh()
-    },
-    finishPullUp () {
-      this.scroll && this.scroll.finishPullUp()
-      this.refresh()
-    },
-    getScrollY () {
-      return this.scroll ? this.scroll.y : 0
-    }
-  }
-}
-
-</script>
 
 <style scoped>
 </style>

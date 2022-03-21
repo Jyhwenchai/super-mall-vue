@@ -20,7 +20,10 @@ const routes = [
   },
   {
     path: '/detail/:iid',
-    component: Detail
+    component: Detail,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/cart',
@@ -31,11 +34,17 @@ const routes = [
   },
   {
     path: '/category',
-    component: Category
+    component: Category,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/profile',
-    component: Profile
+    component: Profile,
+    meta: {
+      keepAlive: true
+    }
   }
 ]
 
