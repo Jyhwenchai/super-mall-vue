@@ -1,3 +1,29 @@
+<script setup>
+import { ref } from 'vue'
+import { Swiper, SwiperItem } from 'components/common/swiper'
+
+const isImageLoad = ref(false)
+const props = defineProps({
+  banners: {
+    type: Array,
+    default () {
+      return []
+    }
+  }
+})
+
+const emit = defineEmits(['imageLoad'])
+
+function imageLoad () {
+  if (!isImageLoad.value) {
+    isImageLoad.value = true
+    emit('imageLoad')
+  }
+}
+
+
+</script>
+
 <template>
   <swiper>
     <swiper-item v-for="(item, index) in banners" :key="index">
@@ -7,40 +33,6 @@
     </swiper-item>
   </swiper>
 </template>
-
-<script>
-import { Swiper, SwiperItem } from 'components/common/swiper'
-
-export default {
-  name: 'HomeSwiper',
-  components: {
-    Swiper,
-    SwiperItem
-  },
-  props: {
-    banners: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
-  emits: ['imageLoad'],
-  data () {
-    return {
-      isImageLoad: false
-    }
-  },
-  methods: {
-    imageLoad () {
-      if (!this.isImageLoad) {
-        this.isImageLoad = true
-        this.$emit('imageLoad')
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
 img {

@@ -1,36 +1,32 @@
+<script setup>
+import { ref } from 'vue'
+
+const emit = defineEmits(['itemClick'])
+defineProps({
+  titles: {
+    type: Array,
+    default () {
+      return []
+    }
+  }
+})
+
+const currentIndex = ref(0)
+
+function itemClick (index) {
+  currentIndex.value = index
+  emit('itemClick', index)
+}
+
+</script>
+
 <template>
 <div class="tab-control">
-  <div class="tab-control-item" v-for="(title, index) in titles" :key="index" @click="itemClick(index)" :class="{ active: index === currentIndex }">
+  <div v-for="(title, index) in titles" :key="index"  class="tab-control-item" :class="{ active: index === currentIndex }" @click="itemClick(index)" >
     <span>{{ title }}</span>
   </div>
 </div>
 </template>
-
-<script>
-export default {
-  name: 'TabControl',
-  emits: ['itemClick'],
-  props: {
-    titles: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
-  data () {
-    return {
-      currentIndex: 0
-    }
-  },
-  methods: {
-    itemClick (index) {
-      this.currentIndex = index
-      this.$emit('itemClick', index)
-    }
-  }
-}
-</script>
 
 <style scoped>
 .tab-control {

@@ -1,3 +1,30 @@
+<script setup>
+import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const props = defineProps({
+  path: {
+    type: String,
+    default: ''
+  },
+  activeColor: {
+    type: String,
+    default: 'red'
+  }
+})
+
+const router = useRouter()
+const route = useRoute()
+
+const isActive = computed(() => route.path.indexOf(props.path) !== -1)
+const activeStyle = computed(() => isActive.value ? { color: props.activeColor } : {})
+
+function itemClick () {
+  router.replace(props.path)
+}
+
+</script>
+
 <template>
   <div class="tab-bar-item" @click="itemClick">
     <div v-if="isActive">
@@ -11,36 +38,6 @@
      </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'TabBarItem',
-  props: {
-    path: String,
-    activeColor: {
-      type: String,
-      default: 'red'
-    }
-  },
-  data () {
-    return {
-    }
-  },
-  methods: {
-    itemClick () {
-      this.$router.replace(this.path)
-    }
-  },
-  computed: {
-    isActive () {
-      return this.$route.path.indexOf(this.path) !== -1
-    },
-    activeStyle () {
-      return this.isActive ? { color: this.activeColor } : {}
-    }
-  }
-}
-</script>
 
 <style scoped>
 .active {

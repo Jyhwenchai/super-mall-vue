@@ -1,7 +1,28 @@
+<script setup>
+import CheckButton from 'components/content/checkButton/CheckButton'
+import { globalStore } from '@/store/global'
+
+const props = defineProps({
+  product: {
+    type: Object,
+    default () {
+      return {}
+    }
+  }
+})
+
+const store = globalStore()
+
+function checkClick () {
+  store.toogleCheckedCartProduct(props.product)
+}
+
+</script>
+
 <template>
 <div class="cart-list-item">
   <div class="check-item">
-    <check-button :is-checked="product.checked" class="check-button" @click="checkClick"/>
+    <CheckButton :is-checked="product.checked" class="check-button" @click="checkClick"/>
   </div>
   <div class="cart-list-left">
     <img :src="product.image" alt="" class="goods-img">
@@ -15,43 +36,6 @@
   </div>
 </div>
 </template>
-
-<script>
-import CheckButton from 'components/content/checkButton/CheckButton'
-import { globalStore } from '@/store/global'
-
-export default {
-  name: 'CartListItem',
-  components: {
-    CheckButton
-  },
-  props: {
-    product: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  },
-  setup () {
-    const store = globalStore()
-    return { store }
-  },
-  data () {
-    return {
-      productItem: null
-    }
-  },
-  created () {
-    this.productItem = this.product
-  },
-  methods: {
-    checkClick () {
-      this.store.toogleCheckedCartProduct(this.product)
-    }
-  }
-}
-</script>
 
 <style scoped="scoped">
 .cart-list-item {

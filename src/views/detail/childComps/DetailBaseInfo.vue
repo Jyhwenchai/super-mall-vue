@@ -1,3 +1,15 @@
+<script setup>
+defineProps({
+  goods: {
+    type: Object,
+    default () {
+      return {}
+    }
+  }
+})
+
+</script>
+
 <template>
 <div v-if="Object.keys(goods).length !== 0" class="base-info">
   <div class="info-title">{{goods.title}}</div>
@@ -19,20 +31,6 @@
   </div>
 </div>
 </template>
-
-<script>
-export default {
-  name: 'DetailBaseInfo',
-  props: {
-    goods: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
 .base-info {

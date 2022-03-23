@@ -1,20 +1,10 @@
-<template>
-<detail-nav-bar ref="nav" class="detail-navbar" @title-click="titleClick"/>
-<div id="detail">
-  <scroll ref="scroll" :probe-type="3" class="scroll-wrapper"  @scroll="contentScroll">
-    <detail-swiper :top-images="topImages"/>
-    <detail-base-info :goods="goods"/>
-    <detail-shop-info :shop="shop"/>
-    <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad"/>
-    <detail-param-info ref="paramInfo" :param-info="paramInfo" />
-    <detail-comment-info ref="commentInfo" :comment-info="commentInfo"/>
-    <goods-list ref="recommends" :goods="recommends"/>
-  </scroll>
-</div>
-<detail-bottom-bar @add-cart="addCart"/>
-</template>
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
-<script>
+import { useBus } from 'common/emitter'
+import toast from 'components/common/toast'
+
 import DetailNavBar from './childComps/DetailNavBar'
 import DetailSwiper from './childComps/DetailSwiper'
 import DetailBaseInfo from './childComps/DetailBaseInfo'
@@ -28,119 +18,140 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 import Scroll from 'components/common/scroll/Scroll'
 
 import { getDetail, Goods, Shop, GoodsParam, getRecommends } from 'network/detail'
-import { itemListenerMixin } from 'common/mixin'
 import { debounce } from 'common/utils'
 import { globalStore } from '@/store/global'
 
-export default {
-  name: 'Detail',
-  components: {
-    DetailNavBar,
-    DetailSwiper,
-    DetailBaseInfo,
-    DetailShopInfo,
-    DetailGoodsInfo,
-    DetailParamInfo,
-    DetailCommentInfo,
-    DetailBottomBar,
-    GoodsList,
-    Scroll
-  },
-  mixins: [itemListenerMixin],
-  setup () {
-    const store = globalStore()
-    return { store }
-  },
-  data () {
-    return {
-      iid: null,
-      topImages: [],
-      goods: {},
-      shop: {},
-      detailInfo: {},
-      paramInfo: {},
-      commentInfo: [],
-      recommends: [],
-      themeTopY: [],
-      getThemeTopY: null,
-      currentIndex: 0
-    }
-  },
-  created () {
-    this.iid = this.$route.params.iid
-    getDetail(this.iid)
-      .then(res => {
-        const result = res.data.result
-        // 1. 轮播数据
-        this.topImages = result.itemInfo.topImages.map(item => 'http:' + item)
-        // 2. 获取商品信息
-        this.goods = new Goods(result.itemInfo, result.columns, result.shopInfo.services)
-        // 3. 购物信息
-        this.shop = new Shop(result.shopInfo)
-        // 4. 商品详情信息
-        this.detailInfo = result.detailInfo
-        // 5. 参数信息
-        this.paramInfo = new GoodsParam(result.itemParams.info, result.itemParams.rule)
-        // 6. 评论信息
-        if (result.rate.cRate !== 0) {
-          this.commentInfo = result.rate.list
-        }
-      })
-    getRecommends()
-      .then(res => {
-        this.recommends = res.data.data.list
-      })
+const iid = ref(null)
+const topImages = ref([])
+const goods = ref({})
+const shop = ref({})
+const detailInfo = ref({})
+const paramInfo = ref({})
+const commentInfo = ref([])
+const recommends = ref([])
+const themeTopY = ref([])
+const getThemeTopY = ref(null)
+const currentIndex = ref(0)
+const route = useRoute()
 
-    this.getThemeTopY = debounce(() => {
-      this.themeTopY = []
-      this.themeTopY.push(0)
-      this.themeTopY.push(this.$refs.paramInfo.$el.offsetTop)
-      this.themeTopY.push(this.$refs.commentInfo.$el.offsetTop)
-      this.themeTopY.push(this.$refs.recommends.$el.offsetTop)
-      this.themeTopY.push(Number.MAX_VALUE)
-    }, 100)
-  },
-  unmounted () {
-    this.emitter.off('imageLoad', this.itemImgListener)
-  },
+const itemImgListener = ref(null)
 
-  methods: {
-    imageLoad () {
-      this.$refs.scroll.refresh()
-      this.getThemeTopY()
-    },
-    titleClick (index) {
-      this.$refs.scroll.scrollTo(0, -this.themeTopY[index], 300)
-    },
-    contentScroll (position) {
-      const positionY = -position.y
-      const length = this.themeTopY.length
-      for (let i = 0; i < length; i++) {
-        if (this.currentIndex !== i) {
-          if (i < length - 1 && positionY >= this.themeTopY[i] && positionY < this.themeTopY[i + 1]) {
-            this.currentIndex = i
-            this.$refs.nav.currentIndex = this.currentIndex
-          }
-        }
+const store = globalStore()
+const { bus } = useBus()
+
+// refs
+const nav = ref(null)
+const paramInfoRef = ref(null)
+const commentInfoRef = ref(null)
+const recommendsRef = ref(null)
+const scrollRef = ref(null)
+
+// Lifecycle
+onMounted(() => {
+  const refresh = debounce(scrollRef.value.refresh, 100)
+  itemImgListener.value = function () {
+    refresh()
+  }
+  itemImgListener.value()
+  bus.on('imageLoad', itemImgListener.value)
+})
+
+onUnmounted(() => {
+  bus.off('imageLoad', itemImgListener.value)
+})
+
+init()
+
+// Methods
+function init() {
+  iid.value = route.params.iid
+  getDetail(iid.value)
+    .then(res => {
+      const result = res.data.result
+      // 1. 轮播数据
+      topImages.value = result.itemInfo.topImages.map(item => 'http:' + item)
+      // 2. 获取商品信息
+      goods.value = new Goods(result.itemInfo, result.columns, result.shopInfo.services)
+      // 3. 购物信息
+      shop.value = new Shop(result.shopInfo)
+      // 4. 商品详情信息
+      detailInfo.value = result.detailInfo
+      // 5. 参数信息
+      paramInfo.value = new GoodsParam(result.itemParams.info, result.itemParams.rule)
+      // 6. 评论信息
+      if (result.rate.cRate !== 0) {
+        commentInfo.value = result.rate.list
       }
-    },
-    addCart () {
-      // 1. 获取商品要展示的信息
-      var product = {}
-      product.image = this.topImages[0]
-      product.title = this.goods.title
-      product.desc = this.goods.desc
-      product.price = this.goods.realPrice
-      product.iid = this.iid
-      // 2. 将商品添加到购物车
-      this.store.addCart(product)
-        .then(res => {
-          this.$toast.show(res, 2000)
-        })
+    })
+  getRecommends()
+    .then(res => {
+      recommends.value = res.data.data.list
+    })
+
+  getThemeTopY.value = debounce(() => {
+    themeTopY.value = []
+    let array = []
+    array.push(0)
+    array.push(paramInfoRef.value.$el.offsetTop)
+    array.push(commentInfoRef.value.$el.offsetTop)
+    array.push(recommendsRef.value.$el.offsetTop)
+    array.push(Number.MAX_VALUE)
+    themeTopY.value = array
+  }, 100)
+}
+
+function imageLoad () {
+  scrollRef.value && scrollRef.value.refresh()
+  getThemeTopY.value()
+}
+
+function titleClick (index) {
+  scrollRef.value.scrollTo(0, -themeTopY.value[index], 300)
+}
+
+function contentScroll (position) {
+  const positionY = -position.y
+  const length = themeTopY.value.length
+  for (let i = 0; i < length; i++) {
+    if (currentIndex.value !== i) {
+      if (i < length - 1 && positionY >= themeTopY.value[i] && positionY < themeTopY.value[i + 1]) {
+        currentIndex.value = i
+        nav.value.currentIndex = currentIndex.value
+      }
     }
   }
 }
+
+function addCart () {
+  // 1. 获取商品要展示的信息
+  var product = {}
+  product.image = topImages.value[0]
+  product.title = goods.value.title
+  product.desc = goods.value.desc
+  product.price = goods.value.realPrice
+  product.iid = iid.value
+  // 2. 将商品添加到购物车
+  store.addCart(product)
+    .then(res => {
+      toast.show(res, 2000)
+    })
+}
 </script>
+<template>
+<DetailNavBar ref="nav" class="detail-navbar" @title-click="titleClick"/>
+<div id="detail">
+  <Scroll ref="scrollRef" :probe-type="3" class="scroll-wrapper"  @scroll="contentScroll">
+    <DetailSwiper :top-images="topImages"/>
+    <DetailBaseInfo :goods="goods"/>
+    <DetailShopInfo :shop="shop"/>
+    <DetailGoodsInfo :detail-info="detailInfo" @image-load="imageLoad"/>
+    <DetailParamInfo ref="paramInfoRef" :param-info="paramInfo" />
+    <DetailCommentInfo ref="commentInfoRef" :comment-info="commentInfo"/>
+    <GoodsList ref="recommendsRef" :goods="recommends"/>
+  </Scroll>
+</div>
+<DetailBottomBar @add-cart="addCart"/>
+</template>
 
 <style scoped>
 #detail {

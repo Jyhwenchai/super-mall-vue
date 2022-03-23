@@ -1,30 +1,25 @@
-<template>
-  <nav-bar class="nav-bar">
-    <template #center>
-      <span>购物车({{cartLength}})</span>
-    </template>
-  </nav-bar>
-</template>
-
-<script>
+<script setup>
 
 import NavBar from 'components/common/navbar/NavBar'
 
-export default {
-  name: 'CartNavBar',
-  components: {
-    NavBar
-  },
-  props: {
-    cartLength: {
-      type: Number,
-      default () {
-        return 0
-      }
+defineProps({
+  cartLength: {
+    type: Number,
+    default () {
+      return 0
     }
   }
-}
+})
+
 </script>
+
+<template>
+  <NavBar class="nav-bar">
+    <template #center>
+      <span>购物车({{cartLength}})</span>
+    </template>
+  </NavBar>
+</template>
 
 <style scoped>
 .nav-bar {

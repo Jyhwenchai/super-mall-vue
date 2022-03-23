@@ -1,39 +1,26 @@
-<template>
-  <div class="cart-list">
-    <scroll class="scroll-wrapper">
-      <cart-list-item v-for="(item, index) in products" :key="index" :product="item"/>
-    </scroll>
-  </div>
-</template>
-
-<script>
+<script setup>
 import Scroll from 'components/common/scroll/Scroll'
 import CartListItem from './CartListItem'
 
-export default {
-  name: 'CartList',
-  components: {
-    Scroll,
-    CartListItem
-  },
-  props: {
-    products: {
-      type: Array,
-      default () {
-        return []
-      }
+defineProps({
+  products: {
+    type: Array,
+    default () {
+      return []
     }
   }
-}
+})
+
 </script>
 
-<style scoped>
-.cart-list {
-  height: 100%;
-}
+<template>
+<Scroll class="scroll-wrapper">
+  <CartListItem v-for="(item, index) in products" :key="index" :product="item"/>
+</Scroll>
+</template>
 
-.cart-list .scroll-wrapper {
-  height: 100%;
+<style scoped>
+.scroll-wrapper {
   overflow: hidden;
 }
 </style>

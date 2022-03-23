@@ -1,6 +1,19 @@
+<script setup>
+
+defineProps({
+  recommends: {
+    type: Array,
+    default () {
+      return []
+    }
+  }
+})
+
+</script>
+
 <template>
   <div class="recommend">
-    <div class="recommend-item" v-for="(item, index) in recommends" :key="index">
+    <div v-for="(item, index) in recommends" :key="index" class="recommend-item">
       <a :href="item.link">
         <img :src="item.image">
         <p>{{ item.title }}</p>
@@ -8,20 +21,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'RecommendView',
-  props: {
-    recommends: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
 .recommend {

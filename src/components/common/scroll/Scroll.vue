@@ -5,6 +5,7 @@ import PullUp from '@better-scroll/pull-up'
 
 import { ref, onMounted } from 'vue'
 
+// State
 const props = defineProps( {
   probeType: {
     type: Number,
@@ -17,8 +18,11 @@ const props = defineProps( {
 })
 
 const emits = defineEmits(['scroll', 'pullingUp'])
+
+// refs
 const wrapper = ref(null)
 
+// Methods
 function scrollTo (x, y, time = 300) {
   scroll && scroll.scrollTo(x, y, time)
 }
@@ -63,7 +67,7 @@ defineExpose({ scrollTo, refresh, finishPullUp, getScrollY })
 </script>
 
 <template>
-<div class="wrapper" ref="wrapper">
+<div ref="wrapper" class="wrapper">
   <div class="content">
     <slot></slot>
   </div>

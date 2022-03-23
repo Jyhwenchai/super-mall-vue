@@ -1,3 +1,13 @@
+<script setup>
+
+const emit = defineEmits(['addCart'])
+
+function addCart () {
+  emit('addCart')
+}
+
+</script>
+
 <template>
 <div class="bot-bar-wrap">
   <div class="bot-bar-item">
@@ -16,18 +26,6 @@
   <div class="btn buy-btn">购买</div>
 </div>
 </template>
-
-<script>
-export default {
-  name: 'DetailBottomBar',
-  emits: ['addCart'],
-  methods: {
-    addCart () {
-      this.$emit('addCart')
-    }
-  }
-}
-</script>
 
 <style scoped>
 .bot-bar-wrap {

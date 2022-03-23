@@ -1,3 +1,14 @@
+<script setup>
+defineProps({
+  paramInfo: {
+    type: Object,
+    default () {
+      return {}
+    }
+  }
+})
+</script>
+
 <template>
   <div v-if="Object.keys(paramInfo).length !== 0" class="param-info">
     <table 
@@ -19,20 +30,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'DetailParamInfo',
-  props: {
-    paramInfo: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
   .param-info {

@@ -1,3 +1,20 @@
+<script setup>
+defineProps({
+  shop: {
+    type: Object,
+    default () {
+      return {}
+    }
+  }
+})
+
+function sellCountFilter (value) {
+  if (value < 10000) return value
+  return (value / 10000).toFixed(1) + '万'
+}
+
+</script>
+
 <template>
   <div class="shop-info">
     <div class="shop-top">
@@ -34,26 +51,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'DetailShopInfo',
-  props: {
-    shop: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  },
-  methods: {
-    sellCountFilter (value) {
-      if (value < 10000) return value
-      return (value / 10000).toFixed(1) + '万'
-    }
-  }
-}
-</script>
 
 <style scoped>
   .shop-info {

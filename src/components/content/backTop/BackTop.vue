@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'BackTop'
-}
-</script>
-
 <style scoped>
 .back-top {
   position: fixed;

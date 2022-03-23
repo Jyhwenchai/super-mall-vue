@@ -1,3 +1,32 @@
+<script setup>
+import { computed } from 'vue'
+import { useBus, emitter } from 'common/emitter'
+import { useRouter } from 'vue-router'
+
+const props = defineProps({
+  goodsItem: {
+    type: Object,
+    default () {
+      return {}
+    }
+  }
+})
+
+const bus = useBus()
+const router = useRouter()
+
+function imageLoad () {
+  emitter.emit('imageLoad')
+}
+
+function itemClick () {
+  router.push('/detail/' + props.goodsItem.iid)
+}
+
+const showImage = computed(() => props.goodsItem.image || props.goodsItem.show.img) 
+
+</script>
+
 <template>
   <div class="goods-item" @click="itemClick">
     <img :src="showImage" @load="imageLoad">
@@ -8,30 +37,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'GoodsListItem',
-  props: {
-    goodsItem: {
-      type: Object
-    }
-  },
-  methods: {
-    imageLoad () {
-      this.emitter.emit('imageLoad')
-    },
-    itemClick () {
-      this.$router.push('/detail/' + this.goodsItem.iid)
-    }
-  },
-  computed: {
-    showImage () {
-      return this.goodsItem.image || this.goodsItem.show.img
-    }
-  }
-}
-</script>
 
 <style scoped>
   .goods-item {

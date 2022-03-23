@@ -1,5 +1,9 @@
+<script setup>
+import NavBar from 'components/common/navbar/NavBar'
+</script>
+
 <template>
-  <nav-bar>
+  <NavBar>
     <template #left>
     </template>
     <template #center>
@@ -7,19 +11,9 @@
     </template>
     <template #right>
     </template>
-  </nav-bar>
+  </NavBar>
 
 </template>
-
-<script>
-import NavBar from 'components/common/navbar/NavBar'
-export default {
-  name: 'HomeNavBar',
-  components: {
-      NavBar
-  }
-}
-</script>
 
 <style>
 </style>

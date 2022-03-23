@@ -10,11 +10,15 @@
 
   将 vue-cli 替换为 vite、vuex 替换为 pinia
 
+* branch: v3-composition-api
+
+  使用 Composition API 风格替换 Options API
+
 ## Project setup
 
 **仅实现视频中的部分功能**
 
-**运行项目前需配置 request.js 中的 baseURL(不知道请找相关人士索要, Not Me!)**
+**运行项目前需配置 request.js 中的 baseURL(不知道请找相关人士索要)**
 
 ```
 npm install

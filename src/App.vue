@@ -15,16 +15,10 @@ onMounted(() => {
 <template>
   <div id="container">
     <router-view v-slot="{ Component }">
-      <!-- <keep-alive 
-        include="Home,Cart" 
-        exclude="Detail"
-      >
-        <component :is="Component" />
-      </keep-alive> -->
       <keep-alive>
-        <component v-if="$route.meta.keepAlive" :key="$route.name" :is="Component"/>
+        <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.name" />
       </keep-alive>
-        <!-- <div>{{$router}}</div> -->
+      <component :is="Component" v-if="!$route.meta.keepAlive" />
     </router-view>
     <main-tab-bar class="main-tab-bar" />
   </div>

@@ -1,3 +1,24 @@
+<script setup>
+import { formatDate } from 'common/utils'
+
+defineProps({
+  commentInfo: {
+    type: Array,
+    default () {
+      return []
+    }
+  }
+})
+
+function showDate (value) {
+  // 将时间戳转换成date对象
+  const date = new Date(value * 1000)
+  // 将date进行格式化
+  return formatDate(date, 'yyyy-MM-dd')
+}
+
+</script>
+
 <template>
 <div v-if="Object.keys(commentInfo).length !== 0" class="comment-info-wrap" >
   <div class="comment-title flex">
@@ -22,29 +43,6 @@
   </div>
 </div>
 </template>
-
-<script>
-import { formatDate } from 'common/utils'
-export default {
-  name: 'DetailCommentInfo',
-  props: {
-    commentInfo: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
-  methods: {
-    showDate (value) {
-      // 将时间戳转换成date对象
-      const date = new Date(value * 1000)
-      // 将date进行格式化
-      return formatDate(date, 'yyyy-MM-dd')
-    }
-  }
-}
-</script>
 
 <style scoped>
 .comment-info-wrap {

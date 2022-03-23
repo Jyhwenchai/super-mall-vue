@@ -1,31 +1,27 @@
+<script setup>
+import { ref } from 'vue'
+
+const isShow = ref(false)
+const message = ref('')
+
+function show (msg, duration = 2000) {
+  isShow.value = true
+  message.value = msg 
+  setTimeout(() => {
+    isShow.value = false
+    message.value = ''
+  }, duration)
+}
+
+defineExpose({ show })
+
+</script>
+
 <template>
-  <div class="toast" v-show="isShow">
+  <div v-show="isShow" class="toast">
     <div>{{message}}</div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Toast',
-  data () {
-    return {
-      isShow: false,
-      message: ''
-    }
-  },
-  methods: {
-    show (message, duration = 2000) {
-      this.isShow = true
-      this.message = message
-      console.log(message)
-      setTimeout(() => {
-        this.isShow = false
-        this.message = ''
-      }, duration)
-    }
-  }
-}
-</script>
 
 <style>
 .toast {

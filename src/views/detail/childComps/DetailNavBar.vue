@@ -1,5 +1,26 @@
+<script setup>
+import NavBar from 'components/common/navbar/NavBar'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const emit = defineEmits(['titleClick'])
+const titles = ref(['商品', '参数', '评论', '推荐'])
+const currentIndex = ref(0)
+const router = useRouter()
+
+function titleClick (index) {
+  currentIndex.value = index
+  emit('titleClick', index)
+}
+
+function backClick () {
+  router.back()
+}
+
+</script>
+
 <template>
-  <nav-bar class="nav-bar">
+  <NavBar class="nav-bar">
     <template #left>
       <div class="back" @click="backClick">
         <img src="~assets/img/common/back.svg">
@@ -12,34 +33,8 @@
         </div>
       </div>
     </template>
-  </nav-bar>
+  </NavBar>
 </template>
-
-<script>
-import NavBar from 'components/common/navbar/NavBar'
-
-export default {
-  name: 'DetailNavBar',
-  components: { NavBar },
-  emits: ['titleClick'],
-  data () {
-    return {
-      titles: ['商品', '参数', '评论', '推荐'],
-      currentIndex: 0
-    }
-  },
-  methods: {
-    titleClick (index) {
-      this.currentIndex = index
-      this.$emit('titleClick', index)
-    },
-    backClick () {
-      this.$router.back()
-    }
-  }
-}
-
-</script>
 
 <style scoped>
 .nav-bar {

@@ -22,7 +22,7 @@ const routes = [
     path: '/detail/:iid',
     component: Detail,
     meta: {
-      keepAlive: true
+      keepAlive: false 
     }
   },
   {

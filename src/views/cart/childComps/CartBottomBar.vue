@@ -1,7 +1,37 @@
+<script setup>
+import CheckButton from 'components/content/checkButton/CheckButton'
+import { globalStore } from '@/store/global'
+import { computed } from 'vue'
+
+const store = globalStore()
+
+const totalPrice = computed(() => {
+  return '￥' + store.cartList.filter(item => {
+    return item.checked
+  }).reduce((initValue, product) => {
+    return initValue + product.price * product.count
+  }, 0).toFixed(2)
+})
+
+const checkLength = computed(() => store.cartList.filter(item => item.checked).length)
+const isSelectAll = computed(() => {
+  if (store.cartList.length === 0) {
+    return false
+  }
+  return !store.cartList.find(item => !item.checked)
+})
+
+function selectAll () {
+  const currentIsSelectAll = isSelectAll.value
+  store.cartList.forEach(item => { item.checked = !currentIsSelectAll })
+}
+
+</script>
+
 <template>
   <div class="cart-bottom-bar">
     <div class="check-content">
-      <check-button :is-checked="isSelectAll" class="check-button" @click="selectAll"/>
+      <CheckButton :is-checked="isSelectAll" class="check-button" @click="selectAll"/>
       <span>全选</span>
     </div>
     <div class="price">合计：{{totalPrice}}</div>
@@ -10,44 +40,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import CheckButton from 'components/content/checkButton/CheckButton'
-import { globalStore } from '@/store/global'
-import { mapState } from 'pinia'
-
-export default {
-  name: 'CartBottomBar',
-  components: {
-    CheckButton
-  },
-  computed: {
-    ...mapState(globalStore, ['cartList']),
-    totalPrice () {
-      return '￥' + this.cartList.filter(item => {
-        return item.checked
-      }).reduce((initValue, product) => {
-        return initValue + product.price * product.count
-      }, 0).toFixed(2)
-    },
-    checkLength () {
-      return this.cartList.filter(item => item.checked).length
-    },
-    isSelectAll () {
-      if (this.cartList.length === 0) {
-        return false
-      }
-      return !this.cartList.find(item => !item.checked)
-    }
-  },
-  methods: {
-    selectAll () {
-      const currentIsSelectAll = this.isSelectAll
-      this.cartList.forEach(item => { item.checked = !currentIsSelectAll })
-    }
-  }
-}
-</script>
 
 <style>
 .cart-bottom-bar {
